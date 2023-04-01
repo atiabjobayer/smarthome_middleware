@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:mysql_client/mysql_client.dart';
-import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/standalone.dart' as tz;
 import 'package:dotenv/dotenv.dart';
 
 // final client1 = MqttServerClient('10.0.0.88', '');
@@ -198,6 +198,8 @@ void subscribeToMQTTSwitch(
   client.subscribe(topic, MqttQos.atMostOnce);
 
   client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) async {
+    await tz.initializeTimeZone();
+
     final recMess = c![0].payload as MqttPublishMessage;
     final pt =
         MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
@@ -218,8 +220,11 @@ void subscribeToMQTTSwitch(
 
     int lastSwitchStatus = await getLastSwitchStatus(switchId, conn);
 
-    final DateTime now = DateTime.now().toLocal();
+    // final DateTime now = DateTime.now().toLocal();
     final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
+
+    var india = tz.getLocation('Asia/Kolkata');
+    var now = tz.TZDateTime.now(india);
 
     //   await tz.initializeTimeZones();
     //   var detroit = tz.getLocation('America/Detroit');
@@ -313,13 +318,13 @@ Future<int> getLastSwitchStatus(String switchId, var conn) async {
     },
   );
   // await conn.close();
-  print("query r age " + switchId);
-  print("Log length = " + logs_query.rows.toList().length.toString());
+  // print("query r age " + switchId);
+  // print("Log length = " + logs_query.rows.toList().length.toString());
   int count = 0;
-  for (var log_row in logs_query.rows) {
-    print(log_row.assoc());
-  }
-  print("query r pore");
+  // for (var log_row in logs_query.rows) {
+  //   print(log_row.assoc());
+  // }
+  // print("query r pore");
 
   if (logs_query.rows.toList().length < 1) {
     return -1;
