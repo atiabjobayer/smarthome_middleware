@@ -218,7 +218,7 @@ void subscribeToMQTTSwitch(
 
     int lastSwitchStatus = await getLastSwitchStatus(switchId, conn);
 
-    final DateTime now = DateTime.now().toUtc();
+    final DateTime now = DateTime.now().toLocal();
     final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
 
     //   await tz.initializeTimeZones();
