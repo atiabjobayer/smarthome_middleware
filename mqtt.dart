@@ -125,6 +125,7 @@ void subscribeToMQTTMeter(
   client.subscribe(topic, MqttQos.atMostOnce);
 
   client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) async {
+    await tz.initializeTimeZone();
     final recMess = c![0].payload as MqttPublishMessage;
     final pt =
         MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
