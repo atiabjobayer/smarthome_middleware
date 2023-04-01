@@ -147,8 +147,10 @@ void subscribeToMQTTMeter(
     // );
     // await conn.connect();
 
-    final DateTime now = DateTime.now().toUtc();
+    // final DateTime now = DateTime.now().toUtc();
     final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
+    var india = tz.getLocation('Asia/Kolkata');
+    var now = tz.TZDateTime.now(india);
 
     var res = await conn.execute(
       "INSERT INTO api_meterlogs(created_at, `usage`, meter_id) VALUES (:created_at, :usage, :meter_id_id)",
