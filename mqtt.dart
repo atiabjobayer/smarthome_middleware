@@ -105,10 +105,10 @@ void subscribeToMQTTMeter(
 
   try {
     await client.connect(MQTT_USERNAME, MQTT_PASSWORD);
-  } on NoConnectionException catch (e) {
+  } on NoConnectionException {
     // print('EXAMPLE::client exception - $e');
     client.disconnect();
-  } on SocketException catch (e) {
+  } on SocketException {
     // print('EXAMPLE::socket exception - $e');
     client.disconnect();
   }
@@ -136,8 +136,8 @@ void subscribeToMQTTMeter(
 
     Map<String, dynamic> telemetryData = jsonDecode(pt);
 
-    // print("Energy meter data paisi");
-    // print(telemetryData['ENERGY']);
+    print("Energy meter data paisi");
+    print(telemetryData['ENERGY']);
 
     // final conn = await MySQLConnection.createConnection(
     //   host: DB_HOST,
@@ -181,10 +181,10 @@ void subscribeToMQTTSwitch(
 
   try {
     await client.connect(MQTT_USERNAME, MQTT_PASSWORD);
-  } on NoConnectionException catch (e) {
+  } on NoConnectionException {
     // print('EXAMPLE::client exception - $e');
     client.disconnect();
-  } on SocketException catch (e) {
+  } on SocketException {
     // print('EXAMPLE::socket exception - $e');
     client.disconnect();
   }
